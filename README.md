@@ -1,35 +1,23 @@
 # Profile Recommender
 
-A Vite + React app with a serverless Claude proxy, ready to run locally and deploy to Vercel.
+A Vite + React static app. Users supply their own Anthropic API key (stored in
+their browser, never on a server), so there is **no backend and no env var to set**.
 
-## Drop in your component
-Replace `src/ProfileRecommender.jsx` with your real `profile_recommender__7_.jsx`
-(keep its `export default`). If you call Claude from it, point the fetch at
-`/api/recommend` so your API key stays on the server.
-
-## Run locally (recommended: vercel dev)
-This runs the React app AND the `/api` function together, exactly like production.
-
+## Run locally
 ```powershell
 npm install
-npm install -g vercel        # one time, if you don't have the CLI
-copy .env.example .env       # then paste your real key into .env
-vercel dev
+npm run dev
 ```
+Open the URL it prints. On first use, paste an Anthropic key in the settings panel.
 
-Open the URL it prints (usually http://localhost:3000).
+## Deploy to Vercel
+1. Push to GitHub (GitHub Desktop).
+2. Vercel -> New Project -> import the repo -> Deploy. It auto-detects Vite.
+3. That's it - no environment variables needed.
 
-> Plain `npm run dev` works too, but it does NOT serve `/api`, so the Claude
-> call will fail. Use `vercel dev` when you want the API working.
+Every `git push` auto-deploys.
 
-## Deploy (same as your last project)
-1. Put this folder in a new GitHub repo (GitHub Desktop → Add → create repo → publish).
-2. Vercel dashboard → New Project → import the repo. It auto-detects Vite. Click Deploy.
-3. Vercel → Project → Settings → Environment Variables → add
-   `ANTHROPIC_API_KEY` with your key → redeploy.
-
-Every `git push` after that auto-deploys.
-
-## Key safety
-`.env` is gitignored — your key is never committed. In production it lives only
-in Vercel's env vars. The browser never sees it.
+## Key handling
+Each user pastes their own key; it lives only in that browser's localStorage and
+is billed to that user's own Anthropic account. Do not hardcode a key in the code
+or commit one to the repo.
